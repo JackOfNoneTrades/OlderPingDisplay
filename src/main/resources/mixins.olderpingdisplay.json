@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.7-GTNH",
+  "package": "org.fentanylsolutions.olderpingdisplay.mixins",
+  "refmap": "mixins.olderpingdisplay.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "GuiInGameForgeMixin"
+  ],
+  "server": []
+}

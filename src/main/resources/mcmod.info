@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Displays each player's ping in the player list as a number.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/JackOfNoneTrades/OlderPingDisplay",
+		"updateUrl": "",
+		"authorList": ["jack"],
+		"credits": "vladmarica for Better Ping Display, Nixuge for original 1.7 mixin.",
+		"logoFile": "assets/${modId}/logo.png",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": [],
+		"dependencies": ["unimixins", "carbonconfig"],
+		"dependants": [],
+		"useDependencyInformation": false
+	}]
+}
