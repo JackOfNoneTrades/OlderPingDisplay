@@ -79,8 +79,10 @@ public class Config {
             .add(new ColorValue("barColor", Defaults.barColor, "Color of the ping bars (hex RGB)"));
         xOffsetCE = generalSection.addInt("xOffset", Defaults.xOffset, "Horizontal offset for ping display");
 
-        pingFormatCE = generalSection
-            .addString("pingFormat", Defaults.pingFormat, "Format string for displayed ping (e.g. \"%dms\")");
+        pingFormatCE = generalSection.addString(
+            "pingFormat",
+            Defaults.pingFormat,
+            "Format string for displayed ping. %d gets replaced by the ping value");
 
         String[] blacklistedPingsAsStrings = Arrays.stream(Defaults.blacklistedPings)
             .mapToObj(String::valueOf)

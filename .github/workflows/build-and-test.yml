@@ -14,4 +14,6 @@ on:
 jobs:
   build-and-test:
     uses: ./.github/workflows/build-and-test-main.yml
+    with:
+      client-only: true
     secrets: inherit
