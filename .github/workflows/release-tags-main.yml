@@ -163,7 +163,7 @@ jobs:
           
           MODRINTH_PROJECT_ID=$(sed -nE 's/^\s*modrinthProjectId\s*=\s*(.*)\s*$/\1/p' gradle.properties)
           response=$(curl -s -X PATCH \
-            "https://api.modrinth.com/v2/project/${{ env.MODRINTH_PROJECT_ID }}" \
+            "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID" \
             -H "Authorization: ${{ secrets.MODRINTH_DESCRIPTION_TOKEN }}" \
             -H "Content-Type: application/json" \
             -H "User-Agent: Readme Updater 69/1.0" \
