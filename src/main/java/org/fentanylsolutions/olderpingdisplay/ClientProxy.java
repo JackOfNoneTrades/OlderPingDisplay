@@ -10,7 +10,6 @@ public class ClientProxy extends CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         super.init(event);
-        Config.registerConfig();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

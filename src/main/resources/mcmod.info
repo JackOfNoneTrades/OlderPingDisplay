@@ -14,7 +14,7 @@
 		"screenshots": [],
 		"parent": "",
 		"requiredMods": [],
-		"dependencies": ["unimixins", "carbonconfig"],
+		"dependencies": ["unimixins"],
 		"dependants": [],
 		"useDependencyInformation": false
 	}]

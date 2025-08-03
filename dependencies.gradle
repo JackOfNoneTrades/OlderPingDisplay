@@ -34,6 +34,10 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.4-GTNH:dev")
-    api("maven.modrinth:carbon-config:ttXTOUmO")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.49-GTNH:dev")
+    // api("org.fentanylsolutions:fentlib:sneed:dev")
+    // api("maven.modrinth:carbon-config:ttXTOUmO")
+
+    /* Fixes the mod menu being broken ingame, allows for quick config testing */
+    runtimeOnlyNonPublishable(rfg.deobf("curse.maven:endercore-231868:4671288"))
 }

@@ -49,6 +49,23 @@ public class GuiInGameForgeMixin {
     protected void drawPlayerPing(GuiIngameForge instance, int x, int y, int textureX, int textureY, int width,
         int height) {
         int ping = currentPlayer.responseTime;
+        for (int p : Config.blacklistedPings) {
+            if (ping == p) {
+                return;
+            }
+        }
+        for (String regex : Config.blacklistedRegexes) {
+            System.out.println(regex + " - " + currentPlayer.name);
+            if (currentPlayer.name.matches(regex)) {
+                return;
+            }
+        }
+        String currentIp = ClientVars.mc.func_147104_D().serverIP;
+        for (String ip : Config.blacklistedServerIps) {
+            if (currentIp.equals(ip)) {
+                return;
+            }
+        }
         int pingColor = 0;
         if (Config.autoColorPingText && Config.renderText || Config.autoColorPingBars && Config.renderPingBars) {
             pingColor = PingColors.getColor(ping);

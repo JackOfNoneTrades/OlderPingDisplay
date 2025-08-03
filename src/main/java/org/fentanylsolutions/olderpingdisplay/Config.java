@@ -1,18 +1,11 @@
 package org.fentanylsolutions.olderpingdisplay;
 
+import java.io.File;
 import java.util.Arrays;
 
-import net.minecraft.util.ResourceLocation;
-
-import carbonconfiglib.CarbonConfig;
-import carbonconfiglib.config.ConfigEntry;
-import carbonconfiglib.config.ConfigHandler;
-import carbonconfiglib.config.ConfigSection;
-import carbonconfiglib.impl.entries.ColorValue;
+import net.minecraftforge.common.config.Configuration;
 
 public class Config {
-
-    public static ConfigHandler config;
 
     private static class Defaults {
 
@@ -29,99 +22,92 @@ public class Config {
         public static final String[] blacklistedServerIps = {};
     }
 
+    private static Configuration config;
+
+    // General settings
+    public static boolean autoColorPingText;
+    public static boolean autoColorPingBars;
+    public static boolean renderText;
+    public static boolean renderPingBars;
+    public static int textColor;
+    public static int barColor;
+    public static int xOffset;
+    public static String pingFormat;
+    public static int[] blacklistedPings;
+    public static String[] blacklistedRegexes;
+    public static String[] blacklistedServerIps;
+
     public static class Categories {
 
         public static final String general = "general";
     }
 
-    /* General */
-    public static boolean autoColorPingText = Defaults.autoColorPingText;
-    public static ConfigEntry.BoolValue autoColorPingTextCE;
-    public static boolean autoColorPingBars = Defaults.autoColorPingBars;
-    public static ConfigEntry.BoolValue autoColorPingBarsCE;
-    public static boolean renderText = Defaults.renderText;
-    public static ConfigEntry.BoolValue renderTextCE;
-    public static boolean renderPingBars = Defaults.renderPingBars;
-    public static ConfigEntry.BoolValue renderPingBarsCE;
-    public static int textColor = Defaults.textColor;
-    public static ColorValue textColorCE;
-    public static int barColor = Defaults.barColor;
-    public static ColorValue barColorCE;
-    public static int xOffset = Defaults.xOffset;
-    public static ConfigEntry.IntValue xOffsetCE;
-    public static String pingFormat = Defaults.pingFormat;
-    public static ConfigEntry.StringValue pingFormatCE;
-    public static int[] blacklistedPings = Defaults.blacklistedPings;
-    public static ConfigEntry.ArrayValue blacklistedPingsCE;
-    public static String[] blacklistedRegexes = Defaults.blacklistedRegexes;
-    public static ConfigEntry.ArrayValue blacklistedRegexesCE;
-    public static String[] blacklistedServerIps = Defaults.blacklistedServerIps;
-    public static ConfigEntry.ArrayValue blacklistedServerIpsCE;
+    public static void loadConfig(File file) {
+        config = new Configuration(file);
 
-    public static void registerConfig() {
-        carbonconfiglib.config.Config conf = new carbonconfiglib.config.Config(OlderPingDisplay.MODID);
+        try {
+            config.load();
 
-        /* General */
-        @SuppressWarnings("unused")
-        ConfigSection generalSection = conf.add(Categories.general);
+            autoColorPingText = config
+                .get(Categories.general, "autoColorPingText", true, "Automatically color ping text")
+                .getBoolean();
+            autoColorPingBars = config
+                .get(Categories.general, "autoColorPingBars", true, "Automatically color ping bars")
+                .getBoolean();
+            renderText = config.get(Categories.general, "renderText", true, "Render ping text on screen")
+                .getBoolean();
+            renderPingBars = config.get(Categories.general, "renderPingBars", false, "Render ping bars on screen")
+                .getBoolean();
 
-        autoColorPingTextCE = generalSection
-            .addBool("autoColorPingText", Defaults.autoColorPingText, "Automatically color ping text");
-        autoColorPingBarsCE = generalSection
-            .addBool("autoColorPingBars", Defaults.autoColorPingBars, "Automatically color ping bars");
-        renderTextCE = generalSection.addBool("renderText", Defaults.renderText, "Render ping text on screen");
-        renderPingBarsCE = generalSection
-            .addBool("renderPingBars", Defaults.renderPingBars, "Render ping bars on screen");
+            textColor = Integer.decode(
+                config.get(Categories.general, "textColor", "0xA0A0A0", "Hex color of ping text (e.g. 0xFF0000)")
+                    .getString());
+            barColor = Integer.decode(
+                config.get(Categories.general, "barColor", "0x00E676", "Hex color of ping bars")
+                    .getString());
 
-        textColorCE = generalSection
-            .add(new ColorValue("textColor", Defaults.textColor, "Color of the ping text (hex RGB)"));
-        barColorCE = generalSection
-            .add(new ColorValue("barColor", Defaults.barColor, "Color of the ping bars (hex RGB)"));
-        xOffsetCE = generalSection.addInt("xOffset", Defaults.xOffset, "Horizontal offset for ping display");
+            xOffset = config.get(Categories.general, "xOffset", 0, "Horizontal offset for ping display")
+                .getInt();
 
-        pingFormatCE = generalSection.addString(
-            "pingFormat",
-            Defaults.pingFormat,
-            "Format string for displayed ping. %d gets replaced by the ping value");
+            pingFormat = config.get(Categories.general, "pingFormat", "%dms", "Format string for ping display")
+                .getString();
 
-        String[] blacklistedPingsAsStrings = Arrays.stream(Defaults.blacklistedPings)
-            .mapToObj(String::valueOf)
-            .toArray(String[]::new);
+            blacklistedPings = parseIntArray(
+                config.get(Categories.general, "blacklistedPings", new String[] {}, "List of ping values to ignore")
+                    .getStringList());
+            blacklistedRegexes = config
+                .get(
+                    Categories.general,
+                    "blacklistedRegexes",
+                    new String[] {},
+                    "List of usernames to ignore (regex supported)")
+                .getStringList();
+            blacklistedServerIps = config
+                .get(Categories.general, "blacklistedServerIps", new String[] {}, "List of server IPs to ignore")
+                .getStringList();
 
-        blacklistedPingsCE = generalSection
-            .addArray("blacklistedPings", blacklistedPingsAsStrings, "List of ping values to ignore");
-        blacklistedRegexesCE = generalSection.addArray(
-            "blacklistedRegexes",
-            Defaults.blacklistedRegexes,
-            "List of usernames to ignore (supports regex)");
-        blacklistedServerIpsCE = generalSection
-            .addArray("blacklistedServerIps", Defaults.blacklistedServerIps, "Server IPs to ignore for ping display");
-
-        config = CarbonConfig.CONFIGS.createConfig(conf);
-        config.addLoadedListener(() -> {
-            OlderPingDisplay.LOG.debug("Carbon config callback, dumping vars.");
-            dumpConf();
-        });
-        config.register();
+        } catch (Exception e) {
+            System.err.println("Error loading config: " + e.getMessage());
+        } finally {
+            config.save();
+        }
     }
 
-    private static void dumpConf() {
-        /* General */
-        autoColorPingText = autoColorPingTextCE.get();
-        autoColorPingBars = autoColorPingBarsCE.get();
-        renderText = renderTextCE.get();
-        renderPingBars = renderPingBarsCE.get();
-        if (renderPingBars) {
-            OlderPingDisplay.pingBarsRl = new ResourceLocation(OlderPingDisplay.MODID, "textures/ping_bars.png");
-        }
-        textColor = textColorCE.get();
-        barColor = barColorCE.get();
-        xOffset = xOffsetCE.get();
-        pingFormat = pingFormatCE.get();
-        blacklistedPings = Arrays.stream(blacklistedPingsCE.get())
-            .mapToInt(Integer::parseInt)
+    private static int[] parseIntArray(String[] strings) {
+        return Arrays.stream(strings)
+            .map(String::trim)
+            .mapToInt(s -> {
+                try {
+                    return Integer.parseInt(s);
+                } catch (NumberFormatException e) {
+                    return -1;
+                }
+            })
+            .filter(i -> i >= 0)
             .toArray();
-        blacklistedRegexes = blacklistedRegexesCE.get();
-        blacklistedServerIps = blacklistedServerIpsCE.get();
+    }
+
+    public static Configuration getRawConfig() {
+        return config;
     }
 }
