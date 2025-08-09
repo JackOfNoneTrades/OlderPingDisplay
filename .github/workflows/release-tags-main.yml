@@ -63,25 +63,6 @@ jobs:
 
       # Continue on error in the following steps to make sure releases still get made even if one of the methods fails
 
-      - name: Check if release already exists and preserve changelog
-        run: |
-          export "EXISTING_CHANGELOG_FILE=$(mktemp --suffix=.md)"
-          echo "EXISTING_CHANGELOG_FILE=${EXISTING_CHANGELOG_FILE}" >> $GITHUB_ENV
-          
-          RELEASE_BODY=$(gh release view "$RELEASE_VERSION" --json body --jq ".body" 2>/dev/null)
-          
-          if [[ -s "$EXISTING_CHANGELOG_FILE" ]]; then
-            echo "Found existing release with changelog"
-            echo "RELEASE_EXISTS=true" >> "$GITHUB_ENV"
-          else
-            echo "No existing release found or changelog is empty"
-            echo "" > "$EXISTING_CHANGELOG_FILE"  # Ensure it's at least an empty file
-            echo "RELEASE_EXISTS=false" >> "$GITHUB_ENV"
-          fi
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Delete old release if it already exists
         run: gh release delete --yes "${RELEASE_VERSION}"
         continue-on-error: true
@@ -94,46 +75,14 @@ jobs:
           if [[ "$SNAPSHOT" == "true" ]]; then
             PRERELEASE="--prerelease"
           fi
-          
-          
-          export "AUTOGEN_CHANGELOG_FILE=$(mktemp --suffix=.md)"
-          export "FINAL_CHANGELOG_FILE=$(mktemp --suffix=.md)"
-          echo "FINAL_CHANGELOG_FILE=${FINAL_CHANGELOG_FILE}" >> $GITHUB_ENV
-          
-          # Generate auto-generated changelog
+          export "CHANGELOG_FILE=$(mktemp --suffix=.md)"
+          echo "CHANGELOG_FILE=${CHANGELOG_FILE}" >> $GITHUB_ENV
           gh api --method POST -H "Accept: application/vnd.github+json" \
             "/repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
             -f tag_name="${RELEASE_VERSION}" \
-            --jq ".body" > "${AUTOGEN_CHANGELOG_FILE}"
-          
-          # Combine existing changelog with auto-generated one
-          if [[ "$RELEASE_EXISTS" == "true" && -s "$EXISTING_CHANGELOG_FILE" ]]; then
-            echo "Preserving existing changelog and appending auto-generated content"
-            cat "${EXISTING_CHANGELOG_FILE}" > "${FINAL_CHANGELOG_FILE}"
-            echo "" >> "${FINAL_CHANGELOG_FILE}"
-            echo "---" >> "${FINAL_CHANGELOG_FILE}"
-            echo "" >> "${FINAL_CHANGELOG_FILE}"
-            echo "## Auto-generated Release Notes" >> "${FINAL_CHANGELOG_FILE}"
-            echo "" >> "${FINAL_CHANGELOG_FILE}"
-            cat "${AUTOGEN_CHANGELOG_FILE}" >> "${FINAL_CHANGELOG_FILE}"
-          else
-            echo "Using auto-generated changelog only"
-            cat "${AUTOGEN_CHANGELOG_FILE}" > "${FINAL_CHANGELOG_FILE}"
-          fi
-          
-          cat "${FINAL_CHANGELOG_FILE}"
-          gh release create "${RELEASE_VERSION}" -F "${FINAL_CHANGELOG_FILE}" $PRERELEASE ./build/libs/*.jar
-          
-          
-          
-          #export "CHANGELOG_FILE=$(mktemp --suffix=.md)"
-          #echo "CHANGELOG_FILE=${CHANGELOG_FILE}" >> $GITHUB_ENV
-          #gh api --method POST -H "Accept: application/vnd.github+json" \
-          #  "/repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
-          #  -f tag_name="${RELEASE_VERSION}" \
-          #  --jq ".body" > "${CHANGELOG_FILE}"
-          #cat "${CHANGELOG_FILE}"
-          #gh release create "${RELEASE_VERSION}" -F "${CHANGELOG_FILE}" $PRERELEASE ./build/libs/*.jar
+            --jq ".body" > "${CHANGELOG_FILE}"
+          cat "${CHANGELOG_FILE}"
+          gh release create "${RELEASE_VERSION}" -F "${CHANGELOG_FILE}" $PRERELEASE ./build/libs/*.jar
         shell: bash
         continue-on-error: true
         env:
@@ -152,29 +101,6 @@ jobs:
         continue-on-error: true
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        if: ${{ env.SNAPSHOT != 'true' }}
-
-      - name: Update Modrinth README
-        run: |
-          readme_content=$(<README.md)
-
-          # Replace image paths
-          modified_readme=$(echo "$readme_content" | sed -E "s|(!\[[^]]*\])\((images/[^)]+)\)|\1(https://github.com/${{ github.repository }}/raw/master/\2)|g")
-          
-          MODRINTH_PROJECT_ID=$(sed -nE 's/^\s*modrinthProjectId\s*=\s*(.*)\s*$/\1/p' gradle.properties)
-          response=$(curl -s -X PATCH \
-            "https://api.modrinth.com/v2/project/${{ env.MODRINTH_PROJECT_ID }}" \
-            -H "Authorization: ${{ secrets.MODRINTH_DESCRIPTION_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -H "User-Agent: Readme Updater 69/1.0" \
-            -d "$(jq -n --arg desc "$modified_readme" '{body: $desc}')" \
-          )
-
-          echo "Response from Modrinth:"
-          echo "$response"
-        env:
-          MODRINTH_DESCRIPTION_TOKEN: ${{ secrets.MODRINTH_DESCRIPTION_TOKEN }}
-          MODRINTH_PROJECT_ID: your_project_id_here  # <-- Replace or make it a GitHub Action `env` variable
         if: ${{ env.SNAPSHOT != 'true' }}
 
       - name: Publish to Curseforge
