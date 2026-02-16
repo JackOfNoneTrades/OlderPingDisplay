@@ -1,19 +1,21 @@
 # Older Ping Display
-A simple client-side mod which displays each player's ping in the player list as a number.
+A simple client-side mod which displays each player's ping in the player list as a number. The mod is highly configurable.
 `1.7.10` backport of [Better Ping Display](https://github.com/vladmarica/better-ping-display-fabric).
 
 ![logo](images/logo_small.png)
 
-The mod is highly configurable and has a neat GUI config thanks to `Carbon Config`.
-
-## Downloads
-* [CurseForge ![curse](images/icons/curse.png)](https://www.curseforge.com/minecraft/mc-mods/olderpingdisplay)
-* [Modrinth ![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/olderpingdisplay)
-* [Git ![git](images/icons/git.png)](https://github.com/JackOfNoneTrades/OlderPingDisplay/releases)
+[![hub](images/badges/github.png)](https://github.com/JackOfNoneTrades/OlderPingDisplay/releases)
+[![modrinth](images/badges/modrinth.png)](https://modrinth.com/mod/olderpingdisplay)
+[![curse](images/badges/curse.png)](https://www.curseforge.com/minecraft/mc-mods/olderpingdisplay)
+[![maven](images/badges/maven.png)](https://maven.fentanylsolutions.org/#/releases/org/fentanylsolutions/olderpingdisplay/OlderPingDisplay)
+![forge](images/badges/forge.png)
 
 ## Dependencies
-* [UniMixins](https://modrinth.com/mod/unimixins) ([![curse](images/icons/curse.png)](https://www.curseforge.com/minecraft/mc-mods/unimixins), [![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/unimixins/versions), [![git](images/icons/git.png)](https://github.com/LegacyModdingMC/UniMixins/releases)) is a required dependency.
-* Prior to version 1.0.0, [CarbonConfig](https://modrinth.com/mod/carbon-config) ([![curse](images/icons/curse.png)](https://www.curseforge.com/minecraft/mc-mods/carbon-config), [![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/carbon-config), [![git](images/icons/git.png)](https://github.com/Carbon-Config-Project/CarbonConfig)) is a required dependency.
+* [UniMixins](https://modrinth.com/mod/unimixins) [![curse](images/icons/curse.png)](https://www.curseforge.com/minecraft/mc-mods/unimixins) [![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/unimixins/versions) [![git](images/icons/git.png)](https://github.com/LegacyModdingMC/UniMixins/releases)
+
+![normal](images/screenshots/normal.png)
+![normal](images/screenshots/tabfaces.png)
+Compatible with TabFaces [![curse](images/icons/curse.png)](https://github.com/JackOfNoneTrades/TabFaces/blob/master/images/badges/forge.png) [![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/tabfaces) [![git](images/icons/git.png)](https://github.com/JackOfNoneTrades/TabFaces/releases).
 
 ## Building
 
