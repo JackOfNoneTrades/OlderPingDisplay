@@ -26,7 +26,7 @@ public class OlderPingDisplay {
     public static final String MODID = "olderpingdisplay";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    public static ResourceLocation pingBarsRl;
+    public static ResourceLocation pingBarsRl = new ResourceLocation(MODID, "textures/ping_bars.png");
 
     public static File confFile;
 
