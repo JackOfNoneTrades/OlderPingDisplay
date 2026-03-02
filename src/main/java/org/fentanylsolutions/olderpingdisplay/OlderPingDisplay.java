@@ -20,7 +20,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
     acceptedMinecraftVersions = "[1.7.10]",
     acceptableRemoteVersions = "*",
     dependencies = "required-after:unimixins",
-    guiFactory = "org.fentanylsolutions.olderpingdisplay.gui.GuiFactory")
+    guiFactory = "org.fentanylsolutions.olderpingdisplay.gui.GuiFactory",
+    customProperties = { @Mod.CustomProperty(k = "license", v = "LGPLv3+SNEED"),
+        @Mod.CustomProperty(k = "issueTrackerUrl", v = "https://github.com/JackOfNoneTrades/OlderPingDisplay/issues"),
+        @Mod.CustomProperty(k = "iconFile", v = "assets/olderpingdisplay/logo.png"),
+        @Mod.CustomProperty(k = "backgroundFile", v = "assets/olderpingdisplay/background.png") })
 public class OlderPingDisplay {
 
     public static final String MODID = "olderpingdisplay";
