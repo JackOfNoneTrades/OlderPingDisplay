@@ -7,8 +7,10 @@ A simple client-side mod which displays each player's ping in the player list as
 [![hub](images/badges/github.png)](https://github.com/JackOfNoneTrades/OlderPingDisplay/releases)
 [![modrinth](images/badges/modrinth.png)](https://modrinth.com/mod/olderpingdisplay)
 [![curse](images/badges/curse.png)](https://www.curseforge.com/minecraft/mc-mods/olderpingdisplay)
+[![mcmodcn](images/badges/mcmodcn.png)](https://www.mcmod.cn/class/24647.html)
 [![maven](images/badges/maven.png)](https://maven.fentanylsolutions.org/#/releases/org/fentanylsolutions/olderpingdisplay/OlderPingDisplay)
 ![forge](images/badges/forge.png)
+[![cord](images/badges/cord.png)](https://discord.gg/xAWCqGrguG)
 
 ## Dependencies
 * [UniMixins](https://modrinth.com/mod/unimixins) [![curse](images/icons/curse.png)](https://www.curseforge.com/minecraft/mc-mods/unimixins) [![modrinth](images/icons/modrinth.png)](https://modrinth.com/mod/unimixins/versions) [![git](images/icons/git.png)](https://github.com/LegacyModdingMC/UniMixins/releases)

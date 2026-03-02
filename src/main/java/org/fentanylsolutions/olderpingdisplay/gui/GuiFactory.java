@@ -11,11 +11,10 @@ import net.minecraftforge.common.config.ConfigElement;
 import org.fentanylsolutions.olderpingdisplay.Config;
 import org.fentanylsolutions.olderpingdisplay.OlderPingDisplay;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.client.IModGuiFactory;
 import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
 
 @SuppressWarnings("unused")
 public class GuiFactory implements IModGuiFactory {
@@ -40,14 +39,13 @@ public class GuiFactory implements IModGuiFactory {
 
     public static class ConfigGui extends GuiConfig {
 
-        private static IConfigElement ceGeneral = new ConfigElement(
-            Config.getRawConfig()
-                .getCategory(Config.Categories.general));
-
         public ConfigGui(GuiScreen parentScreen) {
             super(
                 parentScreen,
-                ImmutableList.of(ceGeneral),
+                Lists.newArrayList(
+                    new ConfigElement(
+                        Config.getRawConfig()
+                            .getCategory(Config.Categories.general))),
                 OlderPingDisplay.MODID,
                 OlderPingDisplay.MODID,
                 false,
