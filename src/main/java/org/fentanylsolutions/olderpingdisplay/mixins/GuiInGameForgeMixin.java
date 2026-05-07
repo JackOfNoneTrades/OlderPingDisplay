@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiPlayerInfo;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.client.GuiIngameForge;
 
 import org.fentanylsolutions.olderpingdisplay.ClientVars;
@@ -60,10 +61,13 @@ public class GuiInGameForgeMixin {
                 return;
             }
         }
-        String currentIp = ClientVars.mc.func_147104_D().serverIP;
-        for (String ip : Config.blacklistedServerIps) {
-            if (currentIp.equals(ip)) {
-                return;
+        ServerData currentServer = ClientVars.mc.func_147104_D();
+        if (currentServer != null && currentServer.serverIP != null) {
+            String currentIp = currentServer.serverIP;
+            for (String ip : Config.blacklistedServerIps) {
+                if (currentIp.equals(ip)) {
+                    return;
+                }
             }
         }
         int pingColor = 0;
