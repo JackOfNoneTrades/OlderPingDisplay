@@ -8,6 +8,7 @@ A simple client-side mod which displays each player's ping in the player list as
 [![modrinth](images/badges/modrinth.png)](https://modrinth.com/mod/olderpingdisplay)
 [![curse](images/badges/curse.png)](https://www.curseforge.com/minecraft/mc-mods/olderpingdisplay)
 [![mcmodcn](images/badges/mcmodcn.png)](https://www.mcmod.cn/class/24647.html)
+[![67](images/badges/67.png)](https://67.fentanylsolutions.org/mod/olderpingdisplay/)
 [![maven](images/badges/maven.png)](https://maven.fentanylsolutions.org/#/releases/org/fentanylsolutions/olderpingdisplay/OlderPingDisplay)
 ![forge](images/badges/forge.png)
 [![cord](images/badges/cord.png)](https://discord.gg/xAWCqGrguG)
