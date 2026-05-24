@@ -31,7 +31,7 @@ Compatible with TabFaces [![curse](images/icons/curse.png)](https://github.com/J
 
 ## License
 
-`LgplV3 + SNEED`.
+`LGPLv3`.
 
 ## Buy me a coffee
 
@@ -40,4 +40,4 @@ Compatible with TabFaces [![curse](images/icons/curse.png)](https://github.com/J
 
 <br>
 
-![license](images/lgplsneed_small.png)
+![license](images/license_small.png)

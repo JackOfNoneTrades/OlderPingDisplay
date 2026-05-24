@@ -21,7 +21,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
     acceptableRemoteVersions = "*",
     dependencies = "required-after:unimixins",
     guiFactory = "org.fentanylsolutions.olderpingdisplay.gui.GuiFactory",
-    customProperties = { @Mod.CustomProperty(k = "license", v = "LGPLv3+SNEED"),
+    customProperties = { @Mod.CustomProperty(k = "license", v = "LGPLv3"),
         @Mod.CustomProperty(k = "issueTrackerUrl", v = "https://github.com/JackOfNoneTrades/OlderPingDisplay/issues"),
         @Mod.CustomProperty(k = "iconFile", v = "assets/olderpingdisplay/logo.png"),
         @Mod.CustomProperty(k = "backgroundFile", v = "assets/olderpingdisplay/background.png") })
